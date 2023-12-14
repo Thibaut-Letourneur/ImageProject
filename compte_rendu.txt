@@ -1,0 +1,110 @@
+def :
+    n : nombre de ligne
+    m : nombre de colone
+
+
+partitionImagae.c : 
+    Creation du tableau contenant la partition de l'image : 
+        Utilisation des tableau dynamic car la taille de notre tableau varrie en fonction de la demande de l'utilisateur
+        Permet aussi de reduire la taille de l'application
+        tableau[ligne][colone]
+
+    Recuperation des voisins :
+        position p :
+            colone numero : p % n
+            ligne numero : p / m
+            
+        Voisin de bas :
+            N'existe pas si : p mod m = 4
+            
+        Voisin de haut :
+            N'existe pas si : p mod m = 0
+            
+        Voisin de droite :
+            N'existe pas si : p < n
+            
+        Voisin de gauche :
+            N'existe pas si : p >= n*(m-1)
+
+testPartitionImagae.c:
+    Fonction de test pour init_tableau:
+        verification si le tableau genere est bien identique au tableau espere pour 5 lignes et 6 colones
+    
+    Fonction de test pour voisin:
+        Verification si les voisins de la case sont correcte
+        Pour cette verification, on a fait un tableau contenant les voisins des differentes case a tester puis on compare le tableau de test
+        avec le tableau que notre fonction nous donne
+
+
+momentImage.c:
+    calcule des posisition en x et y du debut du block et y stoker dans une variable du type point
+    deplacement a droite puis retour a la ligne en augmentant la position en y du point de base
+    recupération des pixels et sommation de ceux ci entre eux
+
+
+testMoment.c:
+    pour tester la fonction momentImage, on a utiliser l'image "deg.ppm".
+    pour verifier nos resultat, on a converti l'image de ascii vers binaire
+    dans cette image on remarque que juste la premierre colone varie de 1 en 1
+
+    calcule de M0:
+        on calcule le nombre de pixel dans une case en fasant la hauteur du rectangle fois la largeur du rectangle
+    
+    calcule de M1:
+        pour calculer son moment on pose l'equation : sommme des i allant de DEBUT jusqu'a FIN
+        soit (sommme des i allant de 0 jusqu'a FIN) - (sommme des i allant de 0 jusqu'a DEBUT)
+
+        on sait que la sommme des i allant de 0 jusqu'a n vaut (n(n-1))/2
+
+        on a donc l'equation (FIN(FIN-1))/2 - (DEBUT(DEBUT-1))/2
+        
+        les autres colones vallent juste n fois 255
+    
+    calcule du M2:
+        idem que le moment 1
+
+
+
+rag.c
+    create_RAG():
+        fait (je ne sais pas trop quoi expliquer sur cette fonction)
+
+    RAG_give_closest_region():
+        M1/M0 - M1'/M0 => (M1 - M1')/M0
+        creation d'une fonction interne pour le cacule de l'augmentation de l'erreur
+        puis implementation de celle ci dans la fonction pricipale et ainsi permettre la determination des deux indices
+
+    RAG_merge_region()
+        pour changer les voisin et moment, on a fait une fonction qui permet de faire cela
+        pour le changement de voisin, on a bien fait attention de bien conscerver l'ordre
+        mais aussi de toutes les possibilité que notre liste peux prendre durant la fusion
+
+
+testRag.c
+    create_RAG():
+        test des moments:
+            reutilisation des teste pour momentImage.calcule
+
+        test des voisins:
+            sachant que la fonction voisin a bien été testé, on verifira juste si les voisins sont bien surpérieurs a numero du block
+
+        test de l'erreur de partition:
+            on a reutiliser les calcule de somme des momments puis appliquer la somme comme indiqué dans le sujet
+            ensuite, on a comparé les deux resultats pour savoir si la fonction est correcte
+
+        test des parents:
+            le script est basique, on ne prendra pas le temps de le tester
+
+    RAG_give_closest_region():
+        je ne sais pas comment faire les testes sur cette fonction
+    
+    RAG_merge_region():
+        on a juste mis en place la verification des voisins car les modifications des moments, parents ou du scrore reste des instruction elementaire
+
+
+
+performMerge.c
+    performe_merge():
+        il y a une erreur dans la fonction RAG_give_closest_region()
+        elle se trouve dans le calcule entre deux block, il faut mettre en place une condition qui détermine si les deux block sont parent ou non
+        

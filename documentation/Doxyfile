@@ -1,0 +1,7 @@
+PROJECT_NAME = "Projet Algo"
+OUTPUT_DIRECTORY = documentation
+INPUT = ./src ./include
+FILE_PATTERNS = *.h *.c
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
+GENERATE_RTF = NO
